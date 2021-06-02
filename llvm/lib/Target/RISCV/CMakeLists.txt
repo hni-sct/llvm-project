@@ -51,6 +51,9 @@ add_llvm_target(RISCVCodeGen
   Support
   Target
   GlobalISel
+  
+  LINK_LIBS
+  RISCVSIHFT
 
   ADD_TO_COMPONENT
   RISCV
@@ -60,3 +63,4 @@ add_subdirectory(AsmParser)
 add_subdirectory(Disassembler)
 add_subdirectory(MCTargetDesc)
 add_subdirectory(TargetInfo)
+add_subdirectory(machinefuncpasssihfts/riscv)

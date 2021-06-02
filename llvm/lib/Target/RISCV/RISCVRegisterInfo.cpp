@@ -101,6 +101,88 @@ BitVector RISCVRegisterInfo::getReservedRegs(const MachineFunction &MF) const {
   markSuperRegs(Reserved, RISCV::VXSAT);
   markSuperRegs(Reserved, RISCV::VXRM);
 
+  if (llvm::cl::enable_cfcss || llvm::cl::enable_rasm) {
+    markSuperRegs(Reserved, RISCV::X5);
+    markSuperRegs(Reserved, RISCV::X29);
+  }
+
+  // DMR passes -> have to reserve half of reg file
+  if (llvm::cl::reserve_rf || llvm::cl::enable_nzdc) {
+    // these are availale for FP DMR purposes alongwith their shadows
+    markSuperRegs(Reserved, RISCV::F8_F);
+    markSuperRegs(Reserved, RISCV::F8_D);
+    markSuperRegs(Reserved, RISCV::F8_H);
+
+    // half of each regfile is reserved
+    markSuperRegs(Reserved, RISCV::X7);
+    markSuperRegs(Reserved, RISCV::X9);
+    markSuperRegs(Reserved, RISCV::X18);
+    markSuperRegs(Reserved, RISCV::X19);
+    markSuperRegs(Reserved, RISCV::X20);
+    markSuperRegs(Reserved, RISCV::X21);
+    markSuperRegs(Reserved, RISCV::X22);
+    markSuperRegs(Reserved, RISCV::X23);
+    markSuperRegs(Reserved, RISCV::X24);
+    markSuperRegs(Reserved, RISCV::X25);
+    markSuperRegs(Reserved, RISCV::X26);
+    markSuperRegs(Reserved, RISCV::X27);
+    markSuperRegs(Reserved, RISCV::X28);
+    markSuperRegs(Reserved, RISCV::X29);
+    markSuperRegs(Reserved, RISCV::X30);
+    markSuperRegs(Reserved, RISCV::X31);
+
+    markSuperRegs(Reserved, RISCV::F7_F);
+    markSuperRegs(Reserved, RISCV::F9_F);
+    markSuperRegs(Reserved, RISCV::F18_F);
+    markSuperRegs(Reserved, RISCV::F19_F);
+    markSuperRegs(Reserved, RISCV::F20_F);
+    markSuperRegs(Reserved, RISCV::F21_F);
+    markSuperRegs(Reserved, RISCV::F22_F);
+    markSuperRegs(Reserved, RISCV::F23_F);
+    markSuperRegs(Reserved, RISCV::F24_F);
+    markSuperRegs(Reserved, RISCV::F25_F);
+    markSuperRegs(Reserved, RISCV::F26_F);
+    markSuperRegs(Reserved, RISCV::F27_F);
+    markSuperRegs(Reserved, RISCV::F28_F);
+    markSuperRegs(Reserved, RISCV::F29_F);
+    markSuperRegs(Reserved, RISCV::F30_F);
+    markSuperRegs(Reserved, RISCV::F31_F);
+
+    markSuperRegs(Reserved, RISCV::F7_D);
+    markSuperRegs(Reserved, RISCV::F9_D);
+    markSuperRegs(Reserved, RISCV::F18_D);
+    markSuperRegs(Reserved, RISCV::F19_D);
+    markSuperRegs(Reserved, RISCV::F20_D);
+    markSuperRegs(Reserved, RISCV::F21_D);
+    markSuperRegs(Reserved, RISCV::F22_D);
+    markSuperRegs(Reserved, RISCV::F23_D);
+    markSuperRegs(Reserved, RISCV::F24_D);
+    markSuperRegs(Reserved, RISCV::F25_D);
+    markSuperRegs(Reserved, RISCV::F26_D);
+    markSuperRegs(Reserved, RISCV::F27_D);
+    markSuperRegs(Reserved, RISCV::F28_D);
+    markSuperRegs(Reserved, RISCV::F29_D);
+    markSuperRegs(Reserved, RISCV::F30_D);
+    markSuperRegs(Reserved, RISCV::F31_D);
+
+    markSuperRegs(Reserved, RISCV::F7_H);
+    markSuperRegs(Reserved, RISCV::F9_H);
+    markSuperRegs(Reserved, RISCV::F18_H);
+    markSuperRegs(Reserved, RISCV::F19_H);
+    markSuperRegs(Reserved, RISCV::F20_H);
+    markSuperRegs(Reserved, RISCV::F21_H);
+    markSuperRegs(Reserved, RISCV::F22_H);
+    markSuperRegs(Reserved, RISCV::F23_H);
+    markSuperRegs(Reserved, RISCV::F24_H);
+    markSuperRegs(Reserved, RISCV::F25_H);
+    markSuperRegs(Reserved, RISCV::F26_H);
+    markSuperRegs(Reserved, RISCV::F27_H);
+    markSuperRegs(Reserved, RISCV::F28_H);
+    markSuperRegs(Reserved, RISCV::F29_H);
+    markSuperRegs(Reserved, RISCV::F30_H);
+    markSuperRegs(Reserved, RISCV::F31_H);
+  }
+
   assert(checkAllSuperRegsMarked(Reserved));
   return Reserved;
 }

@@ -16,6 +16,22 @@
 
 #include "MCTargetDesc/RISCVBaseInfo.h"
 #include "llvm/Target/TargetMachine.h"
+#include "llvm/Support/CommandLine.h"
+
+namespace llvm::cl {
+inline opt<bool> enable_cfcss{"CFCSS", desc("CFCSS pass for CFP"),
+                              value_desc("pass")};
+inline opt<bool> enable_rasm{"RASM", desc("RASM pass for CFP"),
+                             value_desc("pass")};
+inline opt<bool> enable_nzdc{"NZDC", desc("NZDC pass for DFP"),
+                             value_desc("pass")};
+inline opt<bool> enable_fgs{"FGS", desc("fine grain schedule for instr. DMR"),
+                            value_desc("pass")};
+inline opt<bool> reserve_rf{"RRF", desc("reserve half of RegFiles"),
+                            value_desc("pass")};
+inline opt<bool> enable_repair{"REPAIR", desc("REPAIR pass on top of DMR"),
+                               value_desc("pass")};
+}  // namespace llvm::cl
 
 namespace llvm {
 class RISCVRegisterBankInfo;
@@ -48,6 +64,10 @@ void initializeRISCVExpandAtomicPseudoPass(PassRegistry &);
 
 FunctionPass *createRISCVCleanupVSETVLIPass();
 void initializeRISCVCleanupVSETVLIPass(PassRegistry &);
+
+FunctionPass *createRISCVCfcss();
+FunctionPass *createRISCVRasm();
+FunctionPass *createRISCVDmr();
 
 InstructionSelector *createRISCVInstructionSelector(const RISCVTargetMachine &,
                                                     RISCVSubtarget &,
